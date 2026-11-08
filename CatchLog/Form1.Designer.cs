@@ -148,6 +148,7 @@
             btnAddCatch.TabIndex = 12;
             btnAddCatch.Text = "Add Catch";
             btnAddCatch.UseVisualStyleBackColor = true;
+            btnAddCatch.Click += btnAddCatch_Click;
             // 
             // Form1
             // 
