@@ -37,7 +37,21 @@ namespace CatchLog
                 return;
             }
 
-            MessageBox.Show("The catch details are valid. Saving is not available yet.");
+            dgvCatches.Rows.Add(
+                dtpCatchDate.Value.ToShortDateString(),
+                txtSpecies.Text.Trim(),
+                txtLocation.Text.Trim(),
+                txtBait.Text.Trim(),
+                length,
+                weight
+            );
+
+            txtSpecies.Clear();
+            txtLocation.Clear();
+            txtBait.Clear();
+            txtLength.Clear();
+            txtWeight.Clear();
+            txtSpecies.Focus();
         }
     }
 }
