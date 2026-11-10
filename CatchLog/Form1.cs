@@ -223,7 +223,6 @@ namespace CatchLog
 
             btnSaveChanges.Enabled = true;
             btnAddCatch.Enabled = false;
-            btnCancelEdit.Enabled = true;
         }
 
         private void btnSaveChanges_Click(object sender, EventArgs e)
@@ -263,7 +262,6 @@ namespace CatchLog
             editingCatchID = null;
             btnSaveChanges.Enabled = false;
             btnAddCatch.Enabled = true;
-            btnCancelEdit.Enabled = false;
 
             dgvCatches.ClearSelection();
 
@@ -284,7 +282,6 @@ namespace CatchLog
 
             btnSaveChanges.Enabled = false;
             btnAddCatch.Enabled = true;
-            btnCancelEdit.Enabled = false;
 
             dtpCatchDate.Value = DateTime.Today;
 
