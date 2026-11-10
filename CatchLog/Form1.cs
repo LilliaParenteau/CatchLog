@@ -223,6 +223,7 @@ namespace CatchLog
 
             btnSaveChanges.Enabled = true;
             btnAddCatch.Enabled = false;
+            btnCancelEdit.Enabled = true;
         }
 
         private void btnSaveChanges_Click(object sender, EventArgs e)
@@ -262,6 +263,9 @@ namespace CatchLog
             editingCatchID = null;
             btnSaveChanges.Enabled = false;
             btnAddCatch.Enabled = true;
+            btnCancelEdit.Enabled = false;
+
+            dgvCatches.ClearSelection();
 
             txtSpecies.Clear();
             txtLocation.Clear();
@@ -272,6 +276,26 @@ namespace CatchLog
             LoadCatches(txtSearch.Text.Trim());
 
             MessageBox.Show("Catch updated successfully.");
+        }
+
+        private void btnCancelEdit_Click(object sender, EventArgs e)
+        {
+            editingCatchID = null;
+
+            btnSaveChanges.Enabled = false;
+            btnAddCatch.Enabled = true;
+            btnCancelEdit.Enabled = false;
+
+            dtpCatchDate.Value = DateTime.Today;
+
+            txtSpecies.Clear();
+            txtLocation.Clear();
+            txtBait.Clear();
+            txtLength.Clear();
+            txtWeight.Clear();
+
+            dgvCatches.ClearSelection();
+            txtSpecies.Focus();
         }
     }
 }

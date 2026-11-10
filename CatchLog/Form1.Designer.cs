@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             lblCatchDate = new Label();
             dtpCatchDate = new DateTimePicker();
             lblSpecies = new Label();
@@ -57,6 +57,7 @@
             btnDeleteSelected = new Button();
             btnEditSelected = new Button();
             btnSaveChanges = new Button();
+            btnCancelEdit = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvCatches).BeginInit();
             SuspendLayout();
             // 
@@ -191,14 +192,14 @@
             dgvCatches.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvCatches.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvCatches.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvCatches.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvCatches.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvCatches.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCatches.Columns.AddRange(new DataGridViewColumn[] { CatchDate, Species, Location, Bait, Length, Weight, CatchID });
             dgvCatches.Location = new Point(340, 81);
@@ -284,9 +285,9 @@
             btnSearch.Cursor = Cursors.Hand;
             btnSearch.FlatStyle = FlatStyle.Flat;
             btnSearch.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnSearch.Location = new Point(340, 43);
+            btnSearch.Location = new Point(724, 12);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(116, 26);
+            btnSearch.Size = new Size(125, 26);
             btnSearch.TabIndex = 16;
             btnSearch.Text = "Search";
             btnSearch.UseVisualStyleBackColor = false;
@@ -298,7 +299,7 @@
             btnShowAll.Cursor = Cursors.Hand;
             btnShowAll.FlatStyle = FlatStyle.Flat;
             btnShowAll.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnShowAll.Location = new Point(471, 43);
+            btnShowAll.Location = new Point(340, 43);
             btnShowAll.Name = "btnShowAll";
             btnShowAll.Size = new Size(114, 26);
             btnShowAll.TabIndex = 17;
@@ -326,9 +327,9 @@
             btnEditSelected.Cursor = Cursors.Hand;
             btnEditSelected.FlatStyle = FlatStyle.Flat;
             btnEditSelected.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEditSelected.Location = new Point(600, 43);
+            btnEditSelected.Location = new Point(471, 43);
             btnEditSelected.Name = "btnEditSelected";
-            btnEditSelected.Size = new Size(108, 27);
+            btnEditSelected.Size = new Size(106, 27);
             btnEditSelected.TabIndex = 19;
             btnEditSelected.Text = "Edit Selected";
             btnEditSelected.UseVisualStyleBackColor = false;
@@ -348,12 +349,27 @@
             btnSaveChanges.Text = "Save Changes";
             btnSaveChanges.UseVisualStyleBackColor = false;
             // 
+            // btnCancelEdit
+            // 
+            btnCancelEdit.BackColor = SystemColors.Info;
+            btnCancelEdit.Cursor = Cursors.Hand;
+            btnCancelEdit.FlatStyle = FlatStyle.Flat;
+            btnCancelEdit.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancelEdit.Location = new Point(593, 43);
+            btnCancelEdit.Name = "btnCancelEdit";
+            btnCancelEdit.Size = new Size(115, 27);
+            btnCancelEdit.TabIndex = 21;
+            btnCancelEdit.Text = "Cancel Edit";
+            btnCancelEdit.UseVisualStyleBackColor = false;
+            btnCancelEdit.Click += btnCancelEdit_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(1000, 460);
+            Controls.Add(btnCancelEdit);
             Controls.Add(btnSaveChanges);
             Controls.Add(btnEditSelected);
             Controls.Add(btnDeleteSelected);
@@ -416,5 +432,6 @@
         private DataGridViewTextBoxColumn CatchID;
         private Button btnEditSelected;
         private Button btnSaveChanges;
+        private Button btnCancelEdit;
     }
 }
