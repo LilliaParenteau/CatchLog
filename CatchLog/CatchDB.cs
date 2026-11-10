@@ -8,16 +8,23 @@ namespace CatchLog
         private const string ConnectionString =
             @"Server=(localdb)\MSSQLLocalDB;Database=CatchLogDB;Integrated Security=True;Encrypt=True;TrustServerCertificate=True;";
 
-        public static DataTable GetCatches()
+        public static DataTable GetCatches(string searchText = "")
         {
-            string query =
-                @"SELECT CatchDate, Species, Location, Bait,
+            string query = @"
+                  SELECT CatchDate, Species, Location, Bait,
                          LengthInches, WeightPounds
                   FROM dbo.catches
+                  WHERE @SearchText = ''
+                    OR CHARINDEX(@SearchText, Species) > 0
+                    OR CHARINDEX(@SearchText, Location) > 0
                   ORDER BY CatchDate DESC, CatchId DESC;";
 
             using SqlConnection connection = new SqlConnection(ConnectionString);
             using SqlCommand command = new SqlCommand(query, connection);
+
+            command.Parameters.Add("@SearchText", SqlDbType.NVarChar, 150)
+                .Value = searchText.Trim();
+
             using SqlDataAdapter adapter = new SqlDataAdapter(command);
 
             DataTable catches = new DataTable();

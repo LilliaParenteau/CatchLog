@@ -49,6 +49,10 @@
             Bait = new DataGridViewTextBoxColumn();
             Length = new DataGridViewTextBoxColumn();
             Weight = new DataGridViewTextBoxColumn();
+            lblSearch = new Label();
+            txtSearch = new TextBox();
+            btnSearch = new Button();
+            btnShowAll = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvCatches).BeginInit();
             SuspendLayout();
             // 
@@ -193,7 +197,7 @@
             dgvCatches.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvCatches.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCatches.Columns.AddRange(new DataGridViewColumn[] { CatchDate, Species, Location, Bait, Length, Weight });
-            dgvCatches.Location = new Point(340, 20);
+            dgvCatches.Location = new Point(340, 70);
             dgvCatches.Margin = new Padding(1);
             dgvCatches.MultiSelect = false;
             dgvCatches.Name = "dgvCatches";
@@ -201,7 +205,7 @@
             dgvCatches.RowHeadersVisible = false;
             dgvCatches.RowHeadersWidth = 123;
             dgvCatches.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCatches.Size = new Size(640, 420);
+            dgvCatches.Size = new Size(640, 370);
             dgvCatches.TabIndex = 13;
             // 
             // CatchDate
@@ -246,12 +250,61 @@
             Weight.Name = "Weight";
             Weight.ReadOnly = true;
             // 
+            // lblSearch
+            // 
+            lblSearch.AutoSize = true;
+            lblSearch.Location = new Point(353, 20);
+            lblSearch.Name = "lblSearch";
+            lblSearch.Size = new Size(52, 19);
+            lblSearch.TabIndex = 14;
+            lblSearch.Text = "Search:";
+            // 
+            // txtSearch
+            // 
+            txtSearch.Location = new Point(411, 17);
+            txtSearch.MaxLength = 150;
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(340, 25);
+            txtSearch.TabIndex = 15;
+            // 
+            // btnSearch
+            // 
+            btnSearch.BackColor = SystemColors.Info;
+            btnSearch.Cursor = Cursors.Hand;
+            btnSearch.FlatStyle = FlatStyle.Flat;
+            btnSearch.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSearch.Location = new Point(766, 17);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(102, 25);
+            btnSearch.TabIndex = 16;
+            btnSearch.Text = "Search";
+            btnSearch.UseVisualStyleBackColor = false;
+            btnSearch.Click += btnSearch_Click;
+            // 
+            // btnShowAll
+            // 
+            btnShowAll.BackColor = SystemColors.Info;
+            btnShowAll.Cursor = Cursors.Hand;
+            btnShowAll.FlatStyle = FlatStyle.Flat;
+            btnShowAll.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnShowAll.Location = new Point(884, 17);
+            btnShowAll.Name = "btnShowAll";
+            btnShowAll.Size = new Size(96, 25);
+            btnShowAll.TabIndex = 17;
+            btnShowAll.Text = "Show All";
+            btnShowAll.UseVisualStyleBackColor = false;
+            btnShowAll.Click += btnShowAll_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(1000, 460);
+            Controls.Add(btnShowAll);
+            Controls.Add(btnSearch);
+            Controls.Add(txtSearch);
+            Controls.Add(lblSearch);
             Controls.Add(dgvCatches);
             Controls.Add(btnAddCatch);
             Controls.Add(txtWeight);
@@ -299,5 +352,9 @@
         private DataGridViewTextBoxColumn Bait;
         private DataGridViewTextBoxColumn Length;
         private DataGridViewTextBoxColumn Weight;
+        private Label lblSearch;
+        private TextBox txtSearch;
+        private Button btnSearch;
+        private Button btnShowAll;
     }
 }

@@ -23,9 +23,14 @@ namespace CatchLog
 
         private void Form1_Load(object? sender, EventArgs e)
         {
+            LoadCatches();
+        }
+
+        private void LoadCatches(string searchText = "")
+        {
             try
             {
-                DataTable catches = CatchDB.GetCatches();
+                DataTable catches = CatchDB.GetCatches(searchText);
 
                 dgvCatches.Rows.Clear();
 
@@ -44,8 +49,10 @@ namespace CatchLog
             catch (SqlException)
             {
                 MessageBox.Show(
-                    "Could not load catches. Check that LocalDB is available and Setup.sql has been run.",
-                    "Database error"
+                    "Could not load catches. Check that LocalDB is available.",
+                    "Database error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
                 );
             }
         }
@@ -147,6 +154,17 @@ namespace CatchLog
             txtLength.Clear();
             txtWeight.Clear();
             txtSpecies.Focus();
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            LoadCatches(txtSearch.Text.Trim());
+        }
+
+        private void btnShowAll_Click(object sender, EventArgs e)
+        {
+            txtSearch.Clear();
+            LoadCatches();
         }
     }
 }
