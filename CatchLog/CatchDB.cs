@@ -12,7 +12,7 @@ namespace CatchLog
         {
             string query = @"
                   SELECT CatchDate, Species, Location, Bait,
-                         LengthInches, WeightPounds
+                         LengthInches, WeightPounds, CatchID
                   FROM dbo.catches
                   WHERE @SearchText = ''
                     OR CHARINDEX(@SearchText, Species) > 0
@@ -77,6 +77,23 @@ namespace CatchLog
             weightParameter.Precision = 8;
             weightParameter.Scale = 2;
             weightParameter.Value = weight;
+
+            connection.Open();
+            command.ExecuteNonQuery();
+        }
+
+        public static void DeleteCatch(int CatchID)
+        {
+            string query = "DELETE FROM dbo.Catches WHERE CatchID = @CatchID;";
+
+            using SqlConnection connection =
+                new SqlConnection(ConnectionString);
+
+            using SqlCommand command =
+                new SqlCommand(query, connection);
+
+            command.Parameters.Add("@CatchID", SqlDbType.Int)
+                .Value = CatchID;
 
             connection.Open();
             command.ExecuteNonQuery();

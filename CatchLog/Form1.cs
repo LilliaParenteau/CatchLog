@@ -42,7 +42,8 @@ namespace CatchLog
                         row["Location"],
                         row["Bait"],
                         row["LengthInches"],
-                        row["WeightPounds"]
+                        row["WeightPounds"],
+                        row["CatchID"]
                     );
                 }
             }
@@ -165,6 +166,39 @@ namespace CatchLog
         {
             txtSearch.Clear();
             LoadCatches();
+        }
+
+        private void btnDeleteSelected_Click(object sender, EventArgs e)
+        {
+            if (dgvCatches.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a catch to delete.");
+                return;
+            }
+
+            int catchID = Convert.ToInt32(
+                dgvCatches.SelectedRows[0].Cells["CatchID"].Value
+            );
+
+            DialogResult result = MessageBox.Show(
+                "Are you sure you want to delete this catch?",
+                "Confirm Delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    CatchDB.DeleteCatch(catchID);
+                    LoadCatches(txtSearch.Text.Trim());
+                }
+                catch (SqlException)
+                {
+                    MessageBox.Show("Could not delete the catch.");
+                }
+            }
         }
     }
 }
