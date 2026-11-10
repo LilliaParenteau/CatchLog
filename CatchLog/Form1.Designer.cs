@@ -55,6 +55,8 @@
             btnSearch = new Button();
             btnShowAll = new Button();
             btnDeleteSelected = new Button();
+            btnEditSelected = new Button();
+            btnSaveChanges = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvCatches).BeginInit();
             SuspendLayout();
             // 
@@ -199,7 +201,7 @@
             dgvCatches.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvCatches.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCatches.Columns.AddRange(new DataGridViewColumn[] { CatchDate, Species, Location, Bait, Length, Weight, CatchID });
-            dgvCatches.Location = new Point(340, 70);
+            dgvCatches.Location = new Point(340, 81);
             dgvCatches.Margin = new Padding(1);
             dgvCatches.MultiSelect = false;
             dgvCatches.Name = "dgvCatches";
@@ -207,7 +209,7 @@
             dgvCatches.RowHeadersVisible = false;
             dgvCatches.RowHeadersWidth = 123;
             dgvCatches.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCatches.Size = new Size(640, 370);
+            dgvCatches.Size = new Size(640, 360);
             dgvCatches.TabIndex = 13;
             // 
             // CatchDate
@@ -262,7 +264,7 @@
             // lblSearch
             // 
             lblSearch.AutoSize = true;
-            lblSearch.Location = new Point(340, 21);
+            lblSearch.Location = new Point(340, 15);
             lblSearch.Name = "lblSearch";
             lblSearch.Size = new Size(52, 19);
             lblSearch.TabIndex = 14;
@@ -270,10 +272,10 @@
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(398, 20);
+            txtSearch.Location = new Point(398, 12);
             txtSearch.MaxLength = 150;
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(241, 25);
+            txtSearch.Size = new Size(310, 25);
             txtSearch.TabIndex = 15;
             // 
             // btnSearch
@@ -282,9 +284,9 @@
             btnSearch.Cursor = Cursors.Hand;
             btnSearch.FlatStyle = FlatStyle.Flat;
             btnSearch.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnSearch.Location = new Point(654, 19);
+            btnSearch.Location = new Point(340, 43);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(83, 27);
+            btnSearch.Size = new Size(116, 26);
             btnSearch.TabIndex = 16;
             btnSearch.Text = "Search";
             btnSearch.UseVisualStyleBackColor = false;
@@ -296,9 +298,9 @@
             btnShowAll.Cursor = Cursors.Hand;
             btnShowAll.FlatStyle = FlatStyle.Flat;
             btnShowAll.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnShowAll.Location = new Point(753, 19);
+            btnShowAll.Location = new Point(471, 43);
             btnShowAll.Name = "btnShowAll";
-            btnShowAll.Size = new Size(88, 27);
+            btnShowAll.Size = new Size(114, 26);
             btnShowAll.TabIndex = 17;
             btnShowAll.Text = "Show All";
             btnShowAll.UseVisualStyleBackColor = false;
@@ -310,7 +312,7 @@
             btnDeleteSelected.Cursor = Cursors.Hand;
             btnDeleteSelected.FlatStyle = FlatStyle.Flat;
             btnDeleteSelected.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnDeleteSelected.Location = new Point(855, 19);
+            btnDeleteSelected.Location = new Point(724, 43);
             btnDeleteSelected.Name = "btnDeleteSelected";
             btnDeleteSelected.Size = new Size(125, 27);
             btnDeleteSelected.TabIndex = 18;
@@ -318,12 +320,42 @@
             btnDeleteSelected.UseVisualStyleBackColor = false;
             btnDeleteSelected.Click += btnDeleteSelected_Click;
             // 
+            // btnEditSelected
+            // 
+            btnEditSelected.BackColor = SystemColors.Info;
+            btnEditSelected.Cursor = Cursors.Hand;
+            btnEditSelected.FlatStyle = FlatStyle.Flat;
+            btnEditSelected.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEditSelected.Location = new Point(600, 43);
+            btnEditSelected.Name = "btnEditSelected";
+            btnEditSelected.Size = new Size(108, 27);
+            btnEditSelected.TabIndex = 19;
+            btnEditSelected.Text = "Edit Selected";
+            btnEditSelected.UseVisualStyleBackColor = false;
+            btnEditSelected.Click += btnEditSelected_Click;
+            // 
+            // btnSaveChanges
+            // 
+            btnSaveChanges.BackColor = SystemColors.Info;
+            btnSaveChanges.Cursor = Cursors.Hand;
+            btnSaveChanges.Enabled = false;
+            btnSaveChanges.FlatStyle = FlatStyle.Flat;
+            btnSaveChanges.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSaveChanges.Location = new Point(866, 43);
+            btnSaveChanges.Name = "btnSaveChanges";
+            btnSaveChanges.Size = new Size(114, 27);
+            btnSaveChanges.TabIndex = 20;
+            btnSaveChanges.Text = "Save Changes";
+            btnSaveChanges.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(1000, 460);
+            Controls.Add(btnSaveChanges);
+            Controls.Add(btnEditSelected);
             Controls.Add(btnDeleteSelected);
             Controls.Add(btnShowAll);
             Controls.Add(btnSearch);
@@ -382,5 +414,7 @@
         private DataGridViewTextBoxColumn Length;
         private DataGridViewTextBoxColumn Weight;
         private DataGridViewTextBoxColumn CatchID;
+        private Button btnEditSelected;
+        private Button btnSaveChanges;
     }
 }

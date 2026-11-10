@@ -1,3 +1,4 @@
+
 using Microsoft.Data.SqlClient;
 using System.Data;
 
@@ -5,6 +6,8 @@ namespace CatchLog
 {
     public partial class Form1 : Form
     {
+        private int? editingCatchID = null;
+
         public Form1()
         {
             InitializeComponent();
@@ -13,12 +16,68 @@ namespace CatchLog
             txtLocation.MaxLength = 150;
             txtBait.MaxLength = 100;
 
-            // Connect each event once, even if the Designer already connected it.
             Load -= Form1_Load;
             Load += Form1_Load;
 
             btnAddCatch.Click -= btnAddCatch_Click;
             btnAddCatch.Click += btnAddCatch_Click;
+        }
+
+        private bool ValidateCatch(out decimal length, out decimal weight)
+        {
+            length = 0;
+            weight = 0;
+
+            if (dtpCatchDate.Value.Date > DateTime.Today)
+            {
+                MessageBox.Show("Catch date cannot be in the future.");
+                dtpCatchDate.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtSpecies.Text))
+            {
+                MessageBox.Show("Please enter the fish species.");
+                txtSpecies.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtLocation.Text))
+            {
+                MessageBox.Show("Please enter the catch location.");
+                txtLocation.Focus();
+                return false;
+            }
+
+            if (!decimal.TryParse(txtLength.Text, out length) || length <= 0)
+            {
+                MessageBox.Show("Please enter a length greater than zero.");
+                txtLength.Focus();
+                return false;
+            }
+
+            if (!decimal.TryParse(txtWeight.Text, out weight) || weight <= 0)
+            {
+                MessageBox.Show("Please enter a weight greater than zero.");
+                txtWeight.Focus();
+                return false;
+            }
+
+            if (length > 999999.99m || decimal.Round(length, 2) != length)
+            {
+                MessageBox.Show("Length must be no more than 999999.99 inches and use at most two decimal places.");
+                txtLength.Focus();
+                return false;
+            }
+
+            if (weight > 999999.99m || decimal.Round(weight, 2) != weight)
+            {
+                MessageBox.Show("Weight must be no more than 999999.99 pounds and use at most two decimal places.");
+                txtWeight.Focus();
+                return false;
+            }
+
+            return true;
         }
 
         private void Form1_Load(object? sender, EventArgs e)
@@ -60,59 +119,8 @@ namespace CatchLog
 
         private void btnAddCatch_Click(object? sender, EventArgs e)
         {
-            if (dtpCatchDate.Value.Date > DateTime.Today)
+            if (!ValidateCatch(out decimal length, out decimal weight))
             {
-                MessageBox.Show("Catch date cannot be in the future.");
-                dtpCatchDate.Focus();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtSpecies.Text))
-            {
-                MessageBox.Show("Please enter the fish species.");
-                txtSpecies.Focus();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtLocation.Text))
-            {
-                MessageBox.Show("Please enter the catch location.");
-                txtLocation.Focus();
-                return;
-            }
-
-            if (!decimal.TryParse(txtLength.Text, out decimal length)
-                || length <= 0)
-            {
-                MessageBox.Show("Please enter a length greater than zero.");
-                txtLength.Focus();
-                return;
-            }
-
-            if (!decimal.TryParse(txtWeight.Text, out decimal weight)
-                || weight <= 0)
-            {
-                MessageBox.Show("Please enter a weight greater than zero.");
-                txtWeight.Focus();
-                return;
-            }
-
-            // Match the database's DECIMAL(8,2) measurement columns.
-            if (length > 999999.99m || decimal.Round(length, 2) != length)
-            {
-                MessageBox.Show(
-                    "Length must be no more than 999999.99 inches and use at most two decimal places."
-                );
-                txtLength.Focus();
-                return;
-            }
-
-            if (weight > 999999.99m || decimal.Round(weight, 2) != weight)
-            {
-                MessageBox.Show(
-                    "Weight must be no more than 999999.99 pounds and use at most two decimal places."
-                );
-                txtWeight.Focus();
                 return;
             }
 
@@ -140,14 +148,7 @@ namespace CatchLog
                 return;
             }
 
-            dgvCatches.Rows.Add(
-                dtpCatchDate.Value.ToShortDateString(),
-                species,
-                location,
-                bait,
-                length,
-                weight
-            );
+            LoadCatches(txtSearch.Text.Trim());
 
             txtSpecies.Clear();
             txtLocation.Clear();
@@ -199,6 +200,78 @@ namespace CatchLog
                     MessageBox.Show("Could not delete the catch.");
                 }
             }
+        }
+
+        private void btnEditSelected_Click(object sender, EventArgs e)
+        {
+            if (dgvCatches.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a catch to edit.");
+                return;
+            }
+
+            DataGridViewRow row = dgvCatches.SelectedRows[0];
+
+            editingCatchID = Convert.ToInt32(row.Cells["CatchID"].Value);
+
+            dtpCatchDate.Value = Convert.ToDateTime(row.Cells[0].Value);
+            txtSpecies.Text = row.Cells[1].Value?.ToString() ?? "";
+            txtLocation.Text = row.Cells[2].Value?.ToString() ?? "";
+            txtBait.Text = row.Cells[3].Value?.ToString() ?? "";
+            txtLength.Text = row.Cells[4].Value?.ToString() ?? "";
+            txtWeight.Text = row.Cells[5].Value?.ToString() ?? "";
+
+            btnSaveChanges.Enabled = true;
+            btnAddCatch.Enabled = false;
+        }
+
+        private void btnSaveChanges_Click(object sender, EventArgs e)
+        {
+            if (editingCatchID == null)
+            {
+                MessageBox.Show("Please select a catch to edit first.");
+                return;
+            }
+
+            if (!ValidateCatch(out decimal length, out decimal weight))
+            {
+                return;
+            }
+
+            try
+            {
+                CatchDB.UpdateCatch(
+                    editingCatchID.Value,
+                    dtpCatchDate.Value.Date,
+                    txtSpecies.Text.Trim(),
+                    txtLocation.Text.Trim(),
+                    txtBait.Text.Trim(),
+                    length,
+                    weight
+                );
+            }
+            catch (SqlException)
+            {
+                MessageBox.Show(
+                    "Could not update the catch. Please try again.",
+                    "Database error"
+                );
+                return;
+            }
+
+            editingCatchID = null;
+            btnSaveChanges.Enabled = false;
+            btnAddCatch.Enabled = true;
+
+            txtSpecies.Clear();
+            txtLocation.Clear();
+            txtBait.Clear();
+            txtLength.Clear();
+            txtWeight.Clear();
+
+            LoadCatches(txtSearch.Text.Trim());
+
+            MessageBox.Show("Catch updated successfully.");
         }
     }
 }

@@ -98,5 +98,44 @@ namespace CatchLog
             connection.Open();
             command.ExecuteNonQuery();
         }
+
+        public static void UpdateCatch(int catchID, DateTime catchDate,
+            string species, string location, string bait,
+            decimal length, decimal weight)
+        {
+            string query = @"
+                UPDATE dbo.Catches
+                SET CatchDate = @CatchDate,
+                    Species = @Species,
+                    Location = @Location,
+                    Bait = @Bait,
+                    LengthInches = @Length,
+                    WeightPounds = @Weight
+                WHERE CatchID = @CatchID;";
+
+            using SqlConnection connection = new SqlConnection(ConnectionString);
+            using SqlCommand command = new SqlCommand(query, connection);
+
+            command.Parameters.Add("@CatchID", SqlDbType.Int).Value = catchID;
+            command.Parameters.Add("@CatchDate", SqlDbType.Date).Value = catchDate.Date;
+            command.Parameters.Add("@Species", SqlDbType.NVarChar, 100).Value = species.Trim();
+            command.Parameters.Add("@Location", SqlDbType.NVarChar, 150).Value = location.Trim();
+
+            command.Parameters.Add("@Bait", SqlDbType.NVarChar, 100).Value =
+                string.IsNullOrWhiteSpace(bait) ? DBNull.Value : bait.Trim();
+
+            SqlParameter lengthParameter = command.Parameters.Add("@Length", SqlDbType.Decimal);
+            lengthParameter.Precision = 8;
+            lengthParameter.Scale = 2;
+            lengthParameter.Value = length;
+
+            SqlParameter weightParameter = command.Parameters.Add("@Weight", SqlDbType.Decimal);
+            weightParameter.Precision = 8;
+            weightParameter.Scale = 2;
+            weightParameter.Value = weight;
+
+            connection.Open();
+            command.ExecuteNonQuery();
+        }
     }
 }
