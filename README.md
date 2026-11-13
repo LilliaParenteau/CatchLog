@@ -19,13 +19,19 @@ I also used this project to practice writing SQL queries, validating user input,
 - Edit and update existing catches
 - Delete catches with a confirmation message
 - Check user input before saving, including required fields and valid measurements
+- Import multiple catches from a CSV file
+- Skip invalid records during CSV imports
 - Keep catch information saved after closing the application
 
+## Screenshots
 
-## Screenshot
+### Main Application
 
 ![CatchLog application](Screenshots/catchlog.png)
 
+### CSV Import
+
+![CSV import](Screenshots/csv-import.png)
 
 ## Technologies
 
@@ -50,6 +56,27 @@ This project requires Visual Studio with .NET desktop development support and SQ
 
 The application uses a LocalDB connection to save and load catch information.
 
+## CSV Import
+
+CatchLog also allows users to import multiple fishing catches from a CSV file instead of entering each one manually.
+
+To import catches:
+
+1. Open CatchLog.
+2. Click **Import CSV**.
+3. Select a CSV file containing fishing records.
+4. Click **Open**.
+
+The program checks the data before saving it to the database. Valid catches are imported, and invalid rows are skipped.
+
+A sample file is included at `Sample Data/sample-catches.csv` for testing this feature.
+
+The CSV file should contain these columns in order:
+
+`CatchDate,Species,Location,Bait,LengthInches,WeightPounds`
+
+Dates should use the `YYYY-MM-DD` format, and length and weight should be positive numbers.
+
 ## Testing
 
 I tested the application in Visual Studio to make sure the main features worked correctly.
@@ -62,10 +89,13 @@ I checked that I could:
 - Delete catches from the database
 - Enter invalid information and receive an error message
 - Close and reopen the program without losing saved catches
+- Import valid catches from a CSV file
+- Skip invalid CSV records
 
 ## Notes
 
 - CatchLog is a Windows desktop application.
 - SQL Server LocalDB needs to be installed to use the database features.
-- The database setup script is included in the project.
+- The database setup script and a sample CSV file are included in the project.
 - The application stores fishing records locally rather than connecting to an online database.
+- Importing the same CSV file more than once can create duplicate catches.
