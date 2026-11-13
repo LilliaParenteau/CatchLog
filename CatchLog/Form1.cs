@@ -1,6 +1,8 @@
 
 using Microsoft.Data.SqlClient;
 using System.Data;
+using Microsoft.VisualBasic.FileIO;
+using System.Globalization;
 
 namespace CatchLog
 {
@@ -294,6 +296,104 @@ namespace CatchLog
 
             dgvCatches.ClearSelection();
             txtSpecies.Focus();
+        }
+
+        private void btnImportCsv_Click(object sender, EventArgs e)
+        {
+            using OpenFileDialog fileDialog = new OpenFileDialog();
+
+            fileDialog.Filter = "CSV Files (*.csv)|*.csv";
+            fileDialog.Title = "Select a CSV File";
+
+            if (fileDialog.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            int imported = 0;
+            int skipped = 0;
+
+            try
+            {
+                using TextFieldParser parser = new TextFieldParser(fileDialog.FileName);
+                parser.SetDelimiters(",");
+                parser.HasFieldsEnclosedInQuotes = true;
+
+                string[]? headers = parser.ReadFields();
+
+                if (headers == null ||
+                    string.Join(",", headers) !=
+                    "CatchDate,Species,Location,Bait,LengthInches,WeightPounds")
+                {
+                    MessageBox.Show("The CSV columns are not correct.");
+                    return;
+                }
+
+                while (!parser.EndOfData)
+                {
+                    string[]? fields = parser.ReadFields();
+
+                    if (fields == null || fields.Length != 6)
+                    {
+                        skipped++;
+                        continue;
+                    }
+
+                    bool validDate = DateTime.TryParseExact(
+                        fields[0], "yyyy-MM-dd",
+                        CultureInfo.InvariantCulture,
+                        DateTimeStyles.None, out DateTime catchDate);
+
+                    bool validLength = decimal.TryParse(
+                        fields[4], NumberStyles.Number,
+                        CultureInfo.InvariantCulture, out decimal length);
+
+                    bool validWeight = decimal.TryParse(
+                        fields[5], NumberStyles.Number,
+                        CultureInfo.InvariantCulture, out decimal weight);
+
+                    string species = fields[1].Trim();
+                    string location = fields[2].Trim();
+                    string bait = fields[3].Trim();
+                    
+                    if (!validDate || catchDate > DateTime.Today ||
+                        string.IsNullOrWhiteSpace(species) ||
+                        string.IsNullOrWhiteSpace(location) ||
+                        species.Length > 100 || location.Length > 150 ||
+                        bait.Length > 100 ||
+                        !validLength || !validWeight ||
+                        length <= 0 || weight <= 0 ||
+                        length > 999999.99m || weight > 999999.99m ||
+                        decimal.Round(length, 2) != length ||
+                        decimal.Round(weight, 2) != weight)
+                    {
+                        skipped++;
+                        continue;
+                    }
+
+                    CatchDB.AddCatch(catchDate, species, location,
+                        bait, length, weight);
+
+                    imported++;
+                }
+
+                txtSearch.Clear();
+                LoadCatches();
+
+                MessageBox.Show($"Imported {imported} catches. Skipped {skipped} invalid rows.");
+            }
+            catch (MalformedLineException)
+            {
+                MessageBox.Show("The CSV file has a formatting error.");
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Could not read the CSV file.");
+            }
+            catch (SqlException)
+            {
+                MessageBox.Show("Could not save the catches to the database.");
+            }
         }
     }
 }

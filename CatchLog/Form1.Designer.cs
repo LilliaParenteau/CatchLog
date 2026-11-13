@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             lblCatchDate = new Label();
             dtpCatchDate = new DateTimePicker();
             lblSpecies = new Label();
@@ -58,6 +58,7 @@
             btnEditSelected = new Button();
             btnSaveChanges = new Button();
             btnCancelEdit = new Button();
+            btnImportCsv = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvCatches).BeginInit();
             SuspendLayout();
             // 
@@ -176,10 +177,10 @@
             btnAddCatch.Cursor = Cursors.Hand;
             btnAddCatch.FlatStyle = FlatStyle.Flat;
             btnAddCatch.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAddCatch.Location = new Point(21, 328);
+            btnAddCatch.Location = new Point(10, 311);
             btnAddCatch.Margin = new Padding(1);
             btnAddCatch.Name = "btnAddCatch";
-            btnAddCatch.Size = new Size(124, 28);
+            btnAddCatch.Size = new Size(98, 28);
             btnAddCatch.TabIndex = 12;
             btnAddCatch.Text = "Add Catch";
             btnAddCatch.UseVisualStyleBackColor = false;
@@ -192,14 +193,14 @@
             dgvCatches.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvCatches.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvCatches.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvCatches.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvCatches.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvCatches.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCatches.Columns.AddRange(new DataGridViewColumn[] { CatchDate, Species, Location, Bait, Length, Weight, CatchID });
             dgvCatches.Location = new Point(340, 81);
@@ -355,13 +356,27 @@
             btnCancelEdit.Cursor = Cursors.Hand;
             btnCancelEdit.FlatStyle = FlatStyle.Flat;
             btnCancelEdit.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnCancelEdit.Location = new Point(165, 328);
+            btnCancelEdit.Location = new Point(121, 311);
             btnCancelEdit.Name = "btnCancelEdit";
-            btnCancelEdit.Size = new Size(124, 28);
+            btnCancelEdit.Size = new Size(96, 28);
             btnCancelEdit.TabIndex = 21;
             btnCancelEdit.Text = "New Catch";
             btnCancelEdit.UseVisualStyleBackColor = false;
             btnCancelEdit.Click += btnCancelEdit_Click;
+            // 
+            // btnImportCsv
+            // 
+            btnImportCsv.BackColor = SystemColors.Info;
+            btnImportCsv.Cursor = Cursors.Hand;
+            btnImportCsv.FlatStyle = FlatStyle.Flat;
+            btnImportCsv.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnImportCsv.Location = new Point(230, 311);
+            btnImportCsv.Name = "btnImportCsv";
+            btnImportCsv.Size = new Size(96, 28);
+            btnImportCsv.TabIndex = 22;
+            btnImportCsv.Text = "Import CSV";
+            btnImportCsv.UseVisualStyleBackColor = false;
+            btnImportCsv.Click += btnImportCsv_Click;
             // 
             // Form1
             // 
@@ -369,6 +384,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             ClientSize = new Size(1000, 460);
+            Controls.Add(btnImportCsv);
             Controls.Add(btnCancelEdit);
             Controls.Add(btnSaveChanges);
             Controls.Add(btnEditSelected);
@@ -433,5 +449,6 @@
         private Button btnEditSelected;
         private Button btnSaveChanges;
         private Button btnCancelEdit;
+        private Button btnImportCsv;
     }
 }
