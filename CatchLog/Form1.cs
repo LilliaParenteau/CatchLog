@@ -21,6 +21,7 @@ namespace CatchLog
 
             btnAddCatch.Click -= btnAddCatch_Click;
             btnAddCatch.Click += btnAddCatch_Click;
+            btnSaveChanges.Click += btnSaveChanges_Click;
         }
 
         private bool ValidateCatch(out decimal length, out decimal weight)
@@ -225,7 +226,7 @@ namespace CatchLog
             btnAddCatch.Enabled = false;
         }
 
-        private void btnSaveChanges_Click(object sender, EventArgs e)
+        private void btnSaveChanges_Click(object? sender, EventArgs e)
         {
             if (editingCatchID == null)
             {
